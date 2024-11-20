@@ -19,11 +19,11 @@ dagger-hilt
 
 retrofit
 
-Coil (более современное решение по загрузке пикч вместо Glide или Picasso)
+Coil
 
 если используем гугловые облачные сервисы:
-firebase.auth
-google-cloud
-google-maps-api
+firebase.auth\n
+google-cloud\n
+google-maps-api\n
 
 <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&duration=4000&pause=400&width=435&lines=Павлов+Алексей" alt="Typing SVG" /></a>
