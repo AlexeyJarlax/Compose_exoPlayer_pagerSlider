@@ -22,7 +22,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
 //    id("com.autonomousapps.dependency-analysis")  //выявляет лишние библиотеки, анализ - ввести в терминале: ./gradlew buildHealth
-//    id("com.google.gms.google-services") // рекомендуют размещать в конце списка
+//    id("com.google.gms.google-services") // google services рекомендуют размещать в конце списка
 }
 
 android {
@@ -69,7 +69,7 @@ android {
 
 
     bundle {
-        abi {// Оптимизация для разных ABI (процессорных архитектур)
+        abi {
             enableSplit = true
         }
     }
@@ -118,39 +118,28 @@ composeCompiler {
 }
 
 dependencies {
-    // для работы с Activity.
     implementation(libs.androidx.activity)
-
-    // для работы с API Android.
     implementation(libs.androidx.core.ktx)
-
-    // для обеспечения совместимости с новыми возможностями платформы Android на более старых устройствах.
     implementation(libs.androidx.appcompat)
+    coreLibraryDesugaring (libs.desugar.jdk.libs)
 
-    // HTTP-клиент для обмена данными с удаленными серверами.
+    // HTTP-клиент
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.okhttp)
 
-    // для создания функций отправки в Intents с помощью mailto: URI
+    // mailto: URI
     implementation(libs.email.intent.builder)
 
-    // Фреймворк для написания и запуска тестов в Java.
-    testImplementation(libs.junit)
-
-    // Библиотека для написания и запуска тестов на Android.
-    androidTestImplementation(libs.androidx.junit)
-
-    // Библиотека для управления зависимостями koin и Dagger Hilt
-    //  implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03") больше не поддерживается! не добавлять в активные
+    // Dagger Hilt
     implementation(libs.hilt.android)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.hilt.navigation.compose.v100)
+    //  implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03") больше не поддерживается! не добавлять в активные
 
     // Jetpack Compose
     implementation(libs.androidx.ui)
-    implementation(libs.androidx.material)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.navigation.compose)
@@ -166,21 +155,31 @@ dependencies {
     // графическая обработка (более современное решение по загрузке пикч вместо Glide или Picasso)
     implementation(libs.coil.compose)
 
-    // коллекции визуала
+    // визуал
     implementation (libs.androidx.material3)
-    implementation (libs.androidx.material3.v120alpha04)
-    implementation (libs.androidx.material.v153)
+    //    implementation(libs.androidx.material) // устаревшая, заменил на material3
 
     // корутин
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.peko)
 
-    // google.play.services
+    //логи Тимбер
+    implementation(libs.timber)
+
+    // Требуемые обфускатором R8:
+    implementation(libs.bcprov.jdk15on)
+    implementation("org.conscrypt:conscrypt-android:2.5.2")
+
+    // тестирование
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+
+    //google.play.services
 //    implementation(libs.play.services.auth)
 //    implementation(libs.play.services.location)
 //    implementation(libs.play.services.maps)
 
-    // Firebase
+//Firebase
 //    implementation(platform(libs.firebase.bom))
 //    implementation(libs.firebase.auth)
 //    implementation(libs.firebase.storage.ktx)
@@ -193,57 +192,12 @@ dependencies {
 //    implementation (libs.google.firebase.auth.ktx)
 //    implementation (libs.firebase.firestore.ktx)
 
-    // Для Yandex
+//Yandex
 //    implementation(libs.authsdk)
 
-    //ВКонтакте
+//ВКонтакте
 //    implementation(libs.android.sdk.core)
 //    coreLibraryDesugaring(libs.desugar.jdk.libs)
 //    implementation ("com.vk:android-sdk-core:4.1.0") // 4.1.0 рабочая, не обновляю
 //    implementation ("com.vk:android-sdk-api:4.1.0") // 4.1.0 рабочая, не обновляю
-
-    coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:2.0.3")
-
-    //логи Тимбер
-    implementation(libs.timber)
-
-    // Требуемые обфускатором R8:
-    implementation(libs.bcprov.jdk15on)
-    implementation("org.conscrypt:conscrypt-android:2.5.2")
-
-    // переходные(транзитивные) зависимости - зависимости, которые подтягиваются другими библиотеками тут вызываю явно
-    androidTestImplementation("androidx.test:monitor:1.7.1")
-    androidTestImplementation(libs.junit)
-    implementation("androidx.annotation:annotation:1.8.1")
-    implementation("androidx.compose.animation:animation-core:1.7.2")
-    implementation("androidx.compose.animation:animation:1.7.2")
-    implementation(libs.androidx.foundation.layout)
-    implementation(libs.androidx.material.icons.core)
-    implementation(libs.androidx.runtime.saveable)
-    implementation(libs.androidx.runtime)
-    implementation("androidx.compose.ui:ui-geometry:1.7.2")
-    implementation("androidx.compose.ui:ui-graphics:1.7.2")
-    implementation("androidx.compose.ui:ui-text:1.7.2")
-    implementation("androidx.compose.ui:ui-unit:1.7.2")
-    implementation("androidx.core:core:1.13.1")
-    implementation("androidx.fragment:fragment:1.8.2")
-    implementation("androidx.lifecycle:lifecycle-common:2.8.4")
-    implementation("androidx.lifecycle:lifecycle-livedata-core:2.8.4")
-    implementation("androidx.lifecycle:lifecycle-livedata:2.8.4")
-    implementation("androidx.lifecycle:lifecycle-process:2.8.4")
-    implementation("androidx.lifecycle:lifecycle-runtime:2.8.4")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.8.4")
-    implementation("androidx.lifecycle:lifecycle-viewmodel:2.8.4")
-    implementation("androidx.navigation:navigation-common:2.8.0")
-    implementation("androidx.navigation:navigation-runtime:2.8.0")
-    implementation("com.google.dagger:dagger:2.52")
-    implementation("com.google.dagger:hilt-core:2.52")
-    implementation("com.google.guava:guava:32.1.3-android")
-    implementation("io.coil-kt:coil-base:2.3.0")
-    implementation("javax.inject:javax.inject:1")
-    implementation(libs.kotlinx.coroutines.core.v173)
-    implementation(libs.kotlinx.coroutines.play.services)
-    kapt(libs.dagger.compiler)
-    runtimeOnly(libs.kotlinx.coroutines.android.v180)
-    runtimeOnly(libs.peko)
 }
