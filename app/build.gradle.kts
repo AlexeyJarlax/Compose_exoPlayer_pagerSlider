@@ -34,8 +34,8 @@ android {
         resourceConfigurations += setOf("ru", "en")
         minSdk = 29
         targetSdk = 35
-        versionCode = 2
-        versionName = "0.2"
+        versionCode = 3
+        versionName = "0.03"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
 //        resValue("integer", "com_vk_sdk_AppId", vkClientId) // авторизация
