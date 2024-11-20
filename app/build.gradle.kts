@@ -8,10 +8,10 @@ if (localPropertiesFile.exists()) {
 }
 
 // ссылки в localProperties на ключи для авторизации
-val apiKey: String = localProperties.getProperty("API_KEY") ?: "" // ключ приложения для файербейс
-val apiMapKey: String = localProperties.getProperty("API_MAP_KEY") ?: "" // это для гугл карт
-val yandexClientId: String = localProperties.getProperty("YANDEX_CLIENT_ID") ?: "" // авторизация по яндексу
-val vkClientId: String = localProperties.getProperty("VK_CLIENT_ID") ?: "" // авторизация по вк
+//val apiKey: String = localProperties.getProperty("API_KEY") ?: "" // ключ приложения для файербейс
+//val apiMapKey: String = localProperties.getProperty("API_MAP_KEY") ?: "" // это для гугл карт
+//val yandexClientId: String = localProperties.getProperty("YANDEX_CLIENT_ID") ?: "" // авторизация по яндексу
+//val vkClientId: String = localProperties.getProperty("VK_CLIENT_ID") ?: "" // авторизация по вк
 
 plugins {
     id("com.android.application")
@@ -21,16 +21,16 @@ plugins {
     id("com.google.devtools.ksp")
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
-    id("com.autonomousapps.dependency-analysis")  //выявляет лишние библиотеки, анализ - ввести в терминале: ./gradlew buildHealth
-    id("com.google.gms.google-services") // рекомендуют размещать в конце списка
+//    id("com.autonomousapps.dependency-analysis")  //выявляет лишние библиотеки, анализ - ввести в терминале: ./gradlew buildHealth
+//    id("com.google.gms.google-services") // рекомендуют размещать в конце списка
 }
 
 android {
-    namespace = "StartSetupForComposeIn2024"
+    namespace = "com.pavlovalexey.startsetupforcomposein2024"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "StartSetupForComposeIn2024"
+        applicationId = "com.pavlovalexey.startsetupforcomposein2024"
         resourceConfigurations += setOf("ru", "en")
         minSdk = 29
         targetSdk = 35
@@ -38,18 +38,18 @@ android {
         versionName = "0.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        resValue("integer", "com_vk_sdk_AppId", vkClientId) // авторизация
-        buildConfigField("String", "API_KEY", "\"$apiKey\"") // авторизация
+//        resValue("integer", "com_vk_sdk_AppId", vkClientId) // авторизация
+//        buildConfigField("String", "API_KEY", "\"$apiKey\"") // авторизация
 
-        addManifestPlaceholders(
-            mapOf( // авторизация
-                "appAuthRedirectScheme" to "yx$yandexClientId",
-                "yandexRedirectHost" to "oauth2redirect",
-                "YANDEX_CLIENT_ID" to yandexClientId,
-                "API_MAP_KEY" to apiMapKey,
-                "VK_CLIENT_ID" to vkClientId
-            )
-        )
+//        addManifestPlaceholders(
+//            mapOf( // авторизация
+//                "appAuthRedirectScheme" to "yx$yandexClientId",
+//                "yandexRedirectHost" to "oauth2redirect",
+//                "YANDEX_CLIENT_ID" to yandexClientId,
+//                "API_MAP_KEY" to apiMapKey,
+//                "VK_CLIENT_ID" to vkClientId
+//            )
+//        )
     }
 
     buildTypes {
@@ -166,36 +166,43 @@ dependencies {
     // графическая обработка (более современное решение по загрузке пикч вместо Glide или Picasso)
     implementation(libs.coil.compose)
 
+    // коллекции визуала
+    implementation (libs.androidx.material3)
+    implementation (libs.androidx.material3.v120alpha04)
+    implementation (libs.androidx.material.v153)
+
     // корутин
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.peko)
 
-    //google.play.services
-    implementation(libs.play.services.auth)
-    implementation(libs.play.services.location)
-    implementation(libs.play.services.maps)
+    // google.play.services
+//    implementation(libs.play.services.auth)
+//    implementation(libs.play.services.location)
+//    implementation(libs.play.services.maps)
 
     // Firebase
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.auth)
-    implementation(libs.firebase.storage.ktx)
-    implementation(libs.firebase.firestore)
-    implementation(libs.com.google.firebase.firebase.analytics2)
-    implementation(libs.firebase.storage)
-    implementation(libs.firebase.database)
-    implementation(libs.firebase.core)
-    implementation (libs.firebase.functions.ktx)
-    implementation (libs.google.firebase.auth.ktx)
-    implementation (libs.firebase.firestore.ktx)
+//    implementation(platform(libs.firebase.bom))
+//    implementation(libs.firebase.auth)
+//    implementation(libs.firebase.storage.ktx)
+//    implementation(libs.firebase.firestore)
+//    implementation(libs.com.google.firebase.firebase.analytics2)
+//    implementation(libs.firebase.storage)
+//    implementation(libs.firebase.database)
+//    implementation(libs.firebase.core)
+//    implementation (libs.firebase.functions.ktx)
+//    implementation (libs.google.firebase.auth.ktx)
+//    implementation (libs.firebase.firestore.ktx)
 
     // Для Yandex
-    implementation(libs.authsdk)
+//    implementation(libs.authsdk)
 
     //ВКонтакте
-    implementation(libs.android.sdk.core)
-    coreLibraryDesugaring(libs.desugar.jdk.libs)
-    implementation ("com.vk:android-sdk-core:4.1.0") // 4.1.0 рабочая, не обновляю
-    implementation ("com.vk:android-sdk-api:4.1.0") // 4.1.0 рабочая, не обновляю
+//    implementation(libs.android.sdk.core)
+//    coreLibraryDesugaring(libs.desugar.jdk.libs)
+//    implementation ("com.vk:android-sdk-core:4.1.0") // 4.1.0 рабочая, не обновляю
+//    implementation ("com.vk:android-sdk-api:4.1.0") // 4.1.0 рабочая, не обновляю
+
+    coreLibraryDesugaring ("com.android.tools:desugar_jdk_libs:2.0.3")
 
     //логи Тимбер
     implementation(libs.timber)
@@ -239,18 +246,4 @@ dependencies {
     kapt(libs.dagger.compiler)
     runtimeOnly(libs.kotlinx.coroutines.android.v180)
     runtimeOnly(libs.peko)
-}
-dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
 }
