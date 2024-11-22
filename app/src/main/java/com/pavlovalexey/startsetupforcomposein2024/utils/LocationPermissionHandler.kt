@@ -1,11 +1,8 @@
 package com.pavlovalexey.startsetupforcomposein2024.utils
 
 import android.Manifest
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -44,10 +41,6 @@ fun LocationPermissionHandler(onPermissionGranted: () -> Unit) {
             )
         }
         else -> {
-            Text(
-                text = "Разрешение на доступ к местоположению отклонено. Приложение не может отображать ближайшие события.",
-                modifier = Modifier.padding(16.dp)
-            )
         }
     }
 }

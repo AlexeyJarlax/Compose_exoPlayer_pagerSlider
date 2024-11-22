@@ -3,7 +3,6 @@ package com.pavlovalexey.startsetupforcomposein2024.utils
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import com.pavlovalexey.startsetupforcomposein2024.R
 import java.util.Locale
 
 fun getAddressFromLatLng(context: Context, latitude: Double, longitude: Double): String? {

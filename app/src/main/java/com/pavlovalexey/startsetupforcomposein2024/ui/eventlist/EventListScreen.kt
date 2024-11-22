@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.EventListViewModel
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.UiState
 
@@ -26,10 +25,6 @@ fun EventListScreen(
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.filteredEvents.collectAsState()
-    val coroutineScope = rememberCoroutineScope()
-    val sheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
     var showFilterDialog by remember { mutableStateOf(false) }
 
     if (showFilterDialog) {

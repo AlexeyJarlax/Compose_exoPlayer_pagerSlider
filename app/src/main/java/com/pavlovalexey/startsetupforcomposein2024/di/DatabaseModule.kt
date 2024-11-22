@@ -5,7 +5,6 @@ import androidx.room.Room
 import com.pavlovalexey.startsetupforcomposein2024.model.AppDatabase
 import com.pavlovalexey.startsetupforcomposein2024.model.EventDao
 import com.pavlovalexey.startsetupforcomposein2024.repository.PreferenceManager
-import com.pavlovalexey.startsetupforcomposein2024.repository.LocationManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

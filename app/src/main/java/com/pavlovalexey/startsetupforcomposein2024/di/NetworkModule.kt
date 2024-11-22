@@ -1,6 +1,5 @@
 package com.pavlovalexey.startsetupforcomposein2024.di
 
-import android.content.Context
 import com.pavlovalexey.startsetupforcomposein2024.network.EventApiService
 import dagger.Module
 import dagger.Provides

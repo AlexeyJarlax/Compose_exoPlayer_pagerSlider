@@ -42,7 +42,7 @@ fun EventListItem(event: Event, onItemClick: () -> Unit, context: Context) {
                 painter = rememberImagePainter(data = it),
                 contentDescription = event.name,
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(90.dp)
                     .padding(end = 8.dp),
                 contentScale = ContentScale.Crop
             )

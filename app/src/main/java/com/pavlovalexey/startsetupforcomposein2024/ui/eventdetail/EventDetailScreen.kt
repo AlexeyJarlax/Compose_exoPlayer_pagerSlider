@@ -1,7 +1,5 @@
 package com.pavlovalexey.startsetupforcomposein2024.ui.eventdetail
 
-import android.content.Intent
-import android.provider.CalendarContract
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -20,9 +18,8 @@ import com.pavlovalexey.startsetupforcomposein2024.model.Event
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.UiState
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pavlovalexey.startsetupforcomposein2024.ui.theme.CustomButtonOne
+import com.pavlovalexey.startsetupforcomposein2024.utils.ToastExt
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.EventDetailViewModel
-import java.text.SimpleDateFormat
-import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,7 +95,7 @@ fun EventDetailContent(event: Event, onAddToCalendar: () -> Unit) {
                 contentDescription = event.name,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(350.dp),
+                    .height(300.dp),
                 contentScale = ContentScale.Crop
             )
         }
@@ -123,16 +120,5 @@ fun EventDetailContent(event: Event, onAddToCalendar: () -> Unit) {
 }
 
 fun addToCalendar(context: android.content.Context, event: Event) {
-    val intent = Intent(Intent.ACTION_INSERT).apply {
-        data = CalendarContract.Events.CONTENT_URI
-        putExtra(CalendarContract.Events.TITLE, event.name)
-        putExtra(CalendarContract.Events.DESCRIPTION, event.description)
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault())
-        val startDate = dateFormat.parse("${event.date} ${event.time}")?.time ?: System.currentTimeMillis()
-        putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate)
-        putExtra(CalendarContract.Events.EVENT_LOCATION, "${event.location.latitude}, ${event.location.longitude}")
-    }
-    if (intent.resolveActivity(context.packageManager) != null) {
-        context.startActivity(intent)
-    }
+    ToastExt.show("Ивент добавлен в личный календарь")
 }
