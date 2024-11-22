@@ -1,65 +1,32 @@
 package com.pavlovalexey.startsetupforcomposein2024.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
-import com.pavlovalexey.startsetupforcomposein2024.navigation.NavigationGraph
-import com.pavlovalexey.startsetupforcomposein2024.ui.components.BottomNavigationContent
-import kotlinx.coroutines.launch
+import com.pavlovalexey.startsetupforcomposein2024.navigation.NavGraph
+import androidx.navigation.NavHostController
+import com.pavlovalexey.startsetupforcomposein2024.utils.LocationPermissionHandler
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen() {
-    val navController = rememberNavController()
+fun MainScreen(navController: NavHostController, onCloseApp: () -> Unit) {
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
     )
-    val scope = rememberCoroutineScope()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            TopAppBar(
-                title = { Text("точка входа") },
-                navigationIcon = {
-                    IconButton(onClick = {
-                        scope.launch {
-                            sheetState.show()
-                        }
-                    }) {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = "Меню"
-                        )
-                    }
-                }
-            )
-        },
         content = { innerPadding ->
-            NavigationGraph(
+            NavGraph(
                 navController = navController,
-                paddingValues = innerPadding
+                onCloseApp = onCloseApp,
+                modifier = Modifier.padding(innerPadding)
             )
         }
     )
 
-    if (sheetState.isVisible) {
-        ModalBottomSheet(
-            onDismissRequest = {
-                scope.launch { sheetState.hide() }
-            },
-            sheetState = sheetState,
-            dragHandle = { BottomSheetDefaults.DragHandle() }
-        ) {
-            BottomNavigationContent(navController = navController) {
-                scope.launch {
-                    sheetState.hide()
-                }
-            }
-        }
+    LocationPermissionHandler {
     }
 }
