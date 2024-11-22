@@ -15,6 +15,7 @@ if (localPropertiesFile.exists()) {
 
 plugins {
     id("com.android.application")
+    id("kotlin-android")
     id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
@@ -36,7 +37,7 @@ android {
         targetSdk = 35
         versionCode = 3
         versionName = "0.03"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.pavlovalexey.startsetupforcomposein2024.HiltTestRunner"
 
 //        resValue("integer", "com_vk_sdk_AppId", vkClientId) // авторизация
 //        buildConfigField("String", "API_KEY", "\"$apiKey\"") // авторизация
@@ -121,6 +122,9 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.foundation.android)
+    implementation(libs.androidx.foundation.android)
     coreLibraryDesugaring (libs.desugar.jdk.libs)
 
     // HTTP-клиент
@@ -139,25 +143,30 @@ dependencies {
     //  implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03") больше не поддерживается! не добавлять в активные
 
     // Jetpack Compose
+
     implementation(libs.androidx.ui)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.navigation.compose)
+//    implementation(libs.navigation.compose)
     implementation(libs.runtime.livedata)
     implementation(libs.android.maps.compose)
-    implementation(libs.androidx.material.icons.extended)
     implementation(libs.maps.compose.v272)
     implementation(libs.androidx.foundation)
     implementation(libs.google.accompanist.flowlayout)
     implementation (libs.androidx.ui.tooling.preview)
     debugImplementation (libs.androidx.ui.tooling)
 
+    // Compose навигация
+    implementation ("androidx.navigation:navigation-compose:2.8.4")
+
     // графическая обработка (более современное решение по загрузке пикч вместо Glide или Picasso)
     implementation(libs.coil.compose)
 
-    // визуал
+    // визуал material
     implementation (libs.androidx.material3)
-    //    implementation(libs.androidx.material) // устаревшая, заменил на material3
+    implementation(libs.androidx.material) // устаревшая, заменил на material3
+    implementation(libs.androidx.material.icons.extended)
+    implementation ("androidx.compose.material:material-icons-extended:1.4.3")
 
     // корутин
     implementation(libs.kotlinx.coroutines.android)
@@ -173,6 +182,20 @@ dependencies {
     // тестирование
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+
+    // поиск текущего расположения юзера
+    implementation (libs.play.services.location)
+
+    // запрос разрешений
+    implementation (libs.accompanist.permissions)
+
+    // Room
+    implementation (libs.androidx.room.runtime)
+    ksp (libs.androidx.room.compiler)
+    implementation (libs.androidx.room.ktx)
+
+    // работа со временем
+    implementation (libs.androidx.datastore.preferences)
 
     //google.play.services
 //    implementation(libs.play.services.auth)
