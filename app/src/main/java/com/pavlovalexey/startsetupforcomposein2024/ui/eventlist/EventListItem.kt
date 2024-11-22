@@ -1,5 +1,6 @@
 package com.pavlovalexey.startsetupforcomposein2024.ui.eventlist
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -18,14 +19,22 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.pavlovalexey.startsetupforcomposein2024.model.Event
+import androidx.compose.runtime.*
+import com.pavlovalexey.startsetupforcomposein2024.utils.getAddressFromLatLng
 
 @Composable
-fun EventListItem(event: Event, onItemClick: () -> Unit) {
+fun EventListItem(event: Event, onItemClick: () -> Unit, context: Context) {
+    var address by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(event.location) {
+        address = getAddressFromLatLng(context, event.location.latitude, event.location.longitude)
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onItemClick() }
-            .padding(vertical = 8.dp),
+            .padding(vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         event.imageUrl?.let {
@@ -49,10 +58,13 @@ fun EventListItem(event: Event, onItemClick: () -> Unit) {
                 style = MaterialTheme.typography.bodySmall
             )
             Spacer(modifier = Modifier.height(2.dp))
-            Text(
-                text = "${"%.1f".format(event.distance)} км",
-                style = MaterialTheme.typography.bodySmall
-            )
+
+            address?.let {
+                Text(
+                    text = "${"%.1f".format(event.distance)} км • $it",
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
         }
     }
 }

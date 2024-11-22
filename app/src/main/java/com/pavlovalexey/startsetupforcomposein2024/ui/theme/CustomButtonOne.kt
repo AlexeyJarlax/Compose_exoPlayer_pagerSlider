@@ -16,6 +16,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
@@ -25,10 +26,10 @@ import androidx.compose.ui.unit.sp
 fun CustomButtonOne(
     onClick: () -> Unit,
     text: String,
-    iconResId: Int,
+    iconResId: ImageVector,
     modifier: Modifier = Modifier,
-    textColor: Color = Color.LightGray,
-    iconColor: Color = Color.LightGray
+    textColor: Color = Color.DarkGray,
+    iconColor: Color = Color.DarkGray,
 ) {
     Button(
         onClick = onClick,
@@ -39,9 +40,7 @@ fun CustomButtonOne(
         modifier = modifier
             .padding(end = 6.dp, bottom = 6.dp)
             .background(Color.Transparent)
-            .height(IntrinsicSize.Min)
-            .fillMaxWidth(),
-//        elevation = ButtonDefaults.elevation(defaultElevation = 0.dp),
+            .height(IntrinsicSize.Min),
         shape = RoundedCornerShape(1.dp),
         contentPadding = PaddingValues(16.dp)
     ) {
@@ -55,7 +54,7 @@ fun CustomButtonOne(
         )
         Spacer(modifier = Modifier.width(8.dp))
         Icon(
-            painter = painterResource(id = iconResId),
+            imageVector = iconResId,
             contentDescription = null,
             tint = iconColor
         )

@@ -10,6 +10,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import com.pavlovalexey.startsetupforcomposein2024.model.EventDao
+import com.pavlovalexey.startsetupforcomposein2024.model.Location
+import com.pavlovalexey.startsetupforcomposein2024.utils.calculateDistance
 
 class EventRepositoryImpl @Inject constructor(
     private val apiService: EventApiService,
@@ -21,11 +23,22 @@ class EventRepositoryImpl @Inject constructor(
 
     override suspend fun getEvents(): List<Event> {
         return withContext(Dispatchers.IO) {
+            val userLocation = getUserLocation()
             try {
                 val eventsFromApi = apiService.getEvents()
+                val updatedEvents = eventsFromApi.map { event ->
+                    event.copy(
+                        distance = calculateDistance(
+                            userLocation.latitude,
+                            userLocation.longitude,
+                            event.location.latitude,
+                            event.location.longitude
+                        )
+                    )
+                }
                 eventDao.deleteAll()
-                eventDao.insertAll(eventsFromApi)
-                eventsFromApi
+                eventDao.insertAll(updatedEvents)
+                updatedEvents
             } catch (e: Exception) {
                 val cachedEvents = eventDao.getAllEvents()
                 if (cachedEvents.isNotEmpty()) {
@@ -35,6 +48,10 @@ class EventRepositoryImpl @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun getUserLocation(): Location {
+        return Location(latitude = 59.9342802, longitude = 30.3350986) // Санкт-Петербург
     }
 
     override suspend fun getEventById(id: String): Event {

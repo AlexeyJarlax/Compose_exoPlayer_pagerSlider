@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -18,6 +19,7 @@ import coil.compose.rememberImagePainter
 import com.pavlovalexey.startsetupforcomposein2024.model.Event
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.UiState
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.pavlovalexey.startsetupforcomposein2024.ui.theme.CustomButtonOne
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.EventDetailViewModel
 import java.text.SimpleDateFormat
 import java.util.*
@@ -96,7 +98,7 @@ fun EventDetailContent(event: Event, onAddToCalendar: () -> Unit) {
                 contentDescription = event.name,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(200.dp),
+                    .height(350.dp),
                 contentScale = ContentScale.Crop
             )
         }
@@ -112,12 +114,11 @@ fun EventDetailContent(event: Event, onAddToCalendar: () -> Unit) {
             style = MaterialTheme.typography.bodySmall
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(
+        CustomButtonOne(
             onClick = { onAddToCalendar() },
-            modifier = Modifier.align(Alignment.CenterHorizontally)
-        ) {
-            Text(text = "Добавить в календарь")
-        }
+            text = "Добавить в календарь",
+            iconResId = Icons.Default.CalendarMonth
+        )
     }
 }
 

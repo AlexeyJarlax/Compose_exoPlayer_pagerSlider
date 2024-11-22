@@ -9,6 +9,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -22,6 +23,7 @@ fun EventListScreen(
     onCancel: () -> Unit,
     viewModel: EventListViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsState()
     val events by viewModel.filteredEvents.collectAsState()
     val coroutineScope = rememberCoroutineScope()
@@ -93,9 +95,11 @@ fun EventListScreen(
                                     .padding(16.dp)
                             ) {
                                 items(events) { event ->
-                                    EventListItem(event = event) {
-                                        onItemClick(event.id)
-                                    }
+                                    EventListItem(
+                                        event = event,
+                                        onItemClick = { onItemClick(event.id) },
+                                        context = context
+                                    )
                                     Divider(modifier = Modifier.padding(vertical = 8.dp))
                                 }
                             }
