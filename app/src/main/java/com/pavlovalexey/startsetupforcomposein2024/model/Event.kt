@@ -8,7 +8,7 @@ data class Event(
     @PrimaryKey val id: String,
     val name: String,
     val description: String,
-    val type: String, //"Мастер-класс по андроид разработке"
+    val type: String, //"Мастер-класс по "
     val date: String, //"2024-12-31"
     val time: String, // "14:00"
     val location: Location,

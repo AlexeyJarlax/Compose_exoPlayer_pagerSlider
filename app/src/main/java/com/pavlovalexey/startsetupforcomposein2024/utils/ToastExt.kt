@@ -1,5 +1,6 @@
 package com.pavlovalexey.startsetupforcomposein2024.utils
 
+import android.R
 import android.app.Application
 import android.content.Context
 import android.graphics.Color

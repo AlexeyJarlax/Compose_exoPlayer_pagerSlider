@@ -120,6 +120,8 @@ dependencies {
 
     // графическая обработка (более современное решение по загрузке пикч вместо Glide или Picasso)
     implementation(libs.coil.compose)
+    implementation("com.google.accompanist:accompanist-pager:0.36.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.36.0")
 
     // визуал material
     implementation (libs.androidx.material3)
@@ -156,4 +158,8 @@ dependencies {
 
     // работа со временем
     implementation (libs.androidx.datastore.preferences)
+
+    // ExoPlayer
+    implementation ("com.google.android.exoplayer:exoplayer:2.19.0")
+    implementation ("com.google.android.exoplayer:exoplayer-ui:2.19.0")
 }

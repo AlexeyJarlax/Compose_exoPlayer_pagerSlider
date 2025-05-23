@@ -1,5 +1,6 @@
 package com.pavlovalexey.startsetupforcomposein2024.navigation
 
+import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -11,8 +12,9 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.pavlovalexey.startsetupforcomposein2024.ui.EventListScreen
 import com.pavlovalexey.startsetupforcomposein2024.ui.eventdetail.EventDetailScreen
-import com.pavlovalexey.startsetupforcomposein2024.ui.eventlist.EventListScreen
+import com.pavlovalexey.startsetupforcomposein2024.ui.player.VideoPlayerScreen
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.EventDetailViewModel
 
 @Composable
@@ -32,6 +34,10 @@ fun NavGraph(
                 onItemClick = { eventId ->
                     navController.navigate("event_detail/$eventId")
                 },
+                onVideoClick = { videoUrl ->
+                    val v = Uri.encode(videoUrl)
+                    navController.navigate("video_player?videoUrl=$v&audioUrl")
+                },
                 onCancel = onCloseApp
             )
         }
@@ -50,6 +56,19 @@ fun NavGraph(
                     modifier = Modifier.padding(16.dp)
                 )
             }
+        }
+
+        composable(
+            route = "video_player?videoUrl={videoUrl}",
+            arguments = listOf(
+                navArgument("videoUrl") { type = NavType.StringType; defaultValue = "" },
+            )
+        ) { backStackEntry ->
+            val videoUrl = backStackEntry.arguments?.getString("videoUrl").orEmpty()
+            VideoPlayerScreen(
+                videoUrl = videoUrl,
+                onBack = { navController.popBackStack() }
+            )
         }
     }
 }
