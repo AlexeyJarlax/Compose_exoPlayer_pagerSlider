@@ -27,6 +27,5 @@ fun MainScreen(navController: NavHostController, onCloseApp: () -> Unit) {
         }
     )
 
-    LocationPermissionHandler {
-    }
+    LocationPermissionHandler {}
 }
