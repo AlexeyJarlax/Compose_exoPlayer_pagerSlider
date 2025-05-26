@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.pavlovalexey.startsetupforcomposein2024.ui.WorkoutListScreen
 import com.pavlovalexey.startsetupforcomposein2024.ui.eventdetail.WorkoutDetailScreen
+import com.pavlovalexey.startsetupforcomposein2024.ui.player.VideoPlayerScreen
 
 @Composable
 fun NavGraph(
@@ -21,18 +22,32 @@ fun NavGraph(
         modifier = modifier
     ) {
         composable("workout_list") {
-            WorkoutListScreen( onItemClick = { id ->
-                navController.navigate("workout_detail/$id")
-            })
+            WorkoutListScreen(
+                onItemClick = { id ->
+                    navController.navigate("workout_detail/$id")
+                }
+            )
         }
         composable(
             route = "workout_detail/{id}",
             arguments = listOf(navArgument("id") { type = NavType.IntType })
-        ) { backStack ->
-            val id = backStack.arguments!!.getInt("id")
+        ) { back ->
+            val id = back.arguments!!.getInt("id")
             WorkoutDetailScreen(
-                workoutId   = id,
+                workoutId = id,
                 navController = navController
+            )
+        }
+        composable(
+            route = "video_player/{videoUrl}",
+            arguments = listOf(navArgument("videoUrl") {
+                type = NavType.StringType
+            })
+        ) { back ->
+            val url = back.arguments!!.getString("videoUrl")!!
+            VideoPlayerScreen(
+                videoUrl = url,
+                onBack   = { navController.popBackStack() }
             )
         }
     }
