@@ -96,6 +96,7 @@ dependencies {
 
     // mailto: URI
     implementation(libs.email.intent.builder)
+    implementation(libs.snakeyaml)
 
     // Dagger Hilt
     implementation(libs.hilt.android)

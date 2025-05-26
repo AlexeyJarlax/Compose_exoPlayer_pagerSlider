@@ -34,15 +34,3 @@ object ToastExt {
         }
     }
 }
-
-/** применение:
- * контекст для вьюмодели:
-@ApplicationContext private val context: Context,
-
-* контекст для экрана:
-val context = LocalContext.current
-
-ToastExt.show(context.getString(R.string.redirecting_to_auth)) // для компоуз и других областей работает одинаково
-
-private val defaultLocation = getDefaultLocation()
- */
