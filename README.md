@@ -1,24 +1,26 @@
-Актуальная на 2024 сборка нового проекта.
-Собиралась в версии андроид студии: Ladybug
+## Описание
+Тестовая сборка для просмотра стека технологий (2025)
 
-СТЕК для kotlin-android:
+Новое: 
+- горизонтальный слайдер фоток с индикатором
+- MediaPlayer и ExoPlayer для воспроизведения роликов/музыки (видео беру по url, музыку достаю локально)
 
-mvvm или mvp (не принципиально)
+Старое:
+- Отображение списка ближайших событий.
+- Анализ растояния по широте и долготе.
+- Геокодинг названия местности по широте и долготе.
+- Фильтрация событий по растоянию и прочим параметрам.
+- Возможность погрузиться в детали события.
 
-jetpack-compose (маст хэв)
+## Технологии
+- **Язык:** Kotlin
+- **UI:** Jetpack Compose
+- **Навигация:** Jetpack Navigation
+- **Внедрение зависимостей:** Dagger-Hilt
+- **Сетевые запросы:** Retrofit
+- **Кэширование:** Room
+- **Изображения:** Coil
+- **Асинхронность:** Coroutines
+- **Воспроизведение:** MediaPlayer и ExoPlayer
 
-jetpack-navigation
-
-viewmodel
-
-coroutines
-
-dagger-hilt
-
-retrofit
-
-Coil
-
-закомментировал библиотеки для гугловых облачных сервисов: firebase.auth, google-cloud, google-maps-api и для авторизации в яндексе и ВК, чтобы не грузили сборку. С появлением ключей /local.properties добавить в .gitignore
-
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&duration=4000&pause=400&width=435&lines=Павлов+Алексей" alt="Typing SVG" /></a>
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&duration=4000&pause=400&width=435&lines=Яна/Павлов+Алексей/тестовое" alt="Typing SVG" /></a>
