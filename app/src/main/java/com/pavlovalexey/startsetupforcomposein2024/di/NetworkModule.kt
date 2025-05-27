@@ -1,6 +1,6 @@
 package com.pavlovalexey.startsetupforcomposein2024.di
 
-import com.pavlovalexey.startsetupforcomposein2024.network.EventApiService
+import com.pavlovalexey.startsetupforcomposein2024.network.WorkoutApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,20 +13,18 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL = "https://pavlov_alexey.com/"
+    private const val BASE_URL = "http://ref.test.kolsa.ru/"
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit {
-        return Retrofit.Builder()
+    fun provideRetrofit(): Retrofit =
+        Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
 
     @Provides
     @Singleton
-    fun provideEventApiService(retrofit: Retrofit): EventApiService {
-        return retrofit.create(EventApiService::class.java)
-    }
+    fun provideWorkoutApiService(retrofit: Retrofit): WorkoutApiService =
+        retrofit.create(WorkoutApiService::class.java)
 }

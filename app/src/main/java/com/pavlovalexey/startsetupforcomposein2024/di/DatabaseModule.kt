@@ -2,9 +2,8 @@ package com.pavlovalexey.startsetupforcomposein2024.di
 
 import android.content.Context
 import androidx.room.Room
-import com.pavlovalexey.startsetupforcomposein2024.model.AppDatabase
-import com.pavlovalexey.startsetupforcomposein2024.model.EventDao
-import com.pavlovalexey.startsetupforcomposein2024.repository.PreferenceManager
+import com.pavlovalexey.startsetupforcomposein2024.model.WorkoutDao
+import com.pavlovalexey.startsetupforcomposein2024.model.WorkoutDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,26 +14,21 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
+
     @Provides
     @Singleton
-    fun provideAppDatabase(@dagger.hilt.android.qualifiers.ApplicationContext context: Context): AppDatabase {
+    fun provideWorkoutDatabase(
+        @ApplicationContext context: Context
+    ): WorkoutDatabase {
         return Room.databaseBuilder(
             context,
-            AppDatabase::class.java,
-            "events_db"
+            WorkoutDatabase::class.java,
+            "workouts_db"
         ).build()
     }
 
     @Provides
-    fun provideEventDao(appDatabase: AppDatabase): EventDao {
-        return appDatabase.eventDao()
-    }
-
-    @Provides
-    @Singleton
-    fun providePreferenceManager(@ApplicationContext context: Context): PreferenceManager {
-        return PreferenceManager(context)
+    fun provideWorkoutDao(db: WorkoutDatabase): WorkoutDao {
+        return db.workoutDao()
     }
 }
-
-

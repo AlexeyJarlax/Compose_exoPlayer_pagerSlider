@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Test Fitness API
+  description: API для тестового проекта фитнес-контента
+
+servers:
+  - url: http://ref.test.kolsa.ru/
+
+paths:
+  /get_workouts:
+    get:
+      summary: Получение списка тренировок
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workout'
+              examples:
+                example-1:
+                  value:
+                    [
+                      {
+                        "id": 1,
+                        "title": "Утренняя пробежка",
+                        "description": "Идеальная пробежка для старта дня",
+                        "type": 1,
+                        "duration": "30 минут"
+                      },
+                      {
+                        "id": 2,
+                        "title": "Жиросжигающая тренировка",
+                        "description": null,
+                        "type": 1,
+                        "duration": "45 минут"
+                      },
+                      {
+                        "id": 3,
+                        "title": "Прямой эфир с тренером",
+                        "description": "Живой эфир с разбором техники",
+                        "type": 2,
+                        "duration": "60 минут"
+                      },
+                      {
+                        "id": 4,
+                        "title": "Силовой комплекс",
+                        "description": "Упражнения с собственным весом",
+                        "type": 3,
+                        "duration": "20 минут"
+                      },
+                      {
+                        "id": 5,
+                        "title": "Йога для начинающих",
+                        "description": "Поза лотоса и базовые асаны",
+                        "type": 1,
+                        "duration": "40 минут"
+                      }
+                    ]
+
+  /get_video:
+    get:
+      summary: Получение видео тренировки
+      parameters:
+        - name: id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideoWorkout'
+              examples:
+                example-1:
+                  value:
+                    {
+                      "id": 1,
+                      "duration": "30 минут",
+                      "link": "https://archive.org/download/BigBuckBunny_124/BigBuckBunny_512kb.mp4"
+                    }
+
+components:
+  schemas:
+    Workout:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: [string, null]
+        type:
+          type: integer
+          enum: [1, 2, 3]
+          description: 1 - тренировка, 2 - эфир, 3 - комплекс
+        duration:
+          type: string
+
+    VideoWorkout:
+      type: object
+      properties:
+        id:
+          type: integer
+        duration:
+          type: string
+        link:
+          type: string

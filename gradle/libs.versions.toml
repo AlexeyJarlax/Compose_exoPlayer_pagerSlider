@@ -63,6 +63,7 @@ roomKtxVersion = "2.6.1"
 roomRuntimeVersion = "2.6.1"
 runtimeSaveableVersion = "1.7.3"
 runtimeVersion = "1.7.3"
+snakeyamlVersion = "1.33"
 timberVersion = "5.0.1"
 ui = "1.6.8"
 uiToolingVersion = "1.7.5"
@@ -147,6 +148,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hiltAndroid"}
 runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "runtimeLivedataVersion" }
+snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyamlVersion" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersion" }
 androidx-foundation-android = { group = "androidx.compose.foundation", name = "foundation-android", version.ref = "foundationAndroidVersion" }
 
