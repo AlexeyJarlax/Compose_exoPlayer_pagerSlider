@@ -1,3 +1,4 @@
+// Павлов Алексей, тестовое 2025
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -18,18 +19,26 @@ android {
         resourceConfigurations += setOf("ru", "en")
         minSdk = 29
         targetSdk = 35
-        versionCode = 7
-        versionName = "0.07"
+        versionCode = 11
+        versionName = "0.11"
         testInstrumentationRunner = "com.pavlovalexey.startsetupforcomposein2024.HiltTestRunner"
     }
 
     buildTypes {
-        release {}
+        release {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+            isDebuggable = false
+            signingConfig = signingConfigs.getByName("debug")
+        }
         debug {
             isMinifyEnabled = false
         }
     }
-
 
     bundle {
         abi {
@@ -85,17 +94,15 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.foundation.android)
-    implementation(libs.androidx.foundation.android)
-    implementation(libs.androidx.foundation.android)
     coreLibraryDesugaring (libs.desugar.jdk.libs)
 
     // HTTP-клиент
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
-    implementation(libs.okhttp)
+//    implementation(libs.okhttp)
 
     // mailto: URI
-    implementation(libs.email.intent.builder)
+//    implementation(libs.email.intent.builder)
     implementation(libs.snakeyaml)
 
     // Dagger Hilt
@@ -109,15 +116,15 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.runtime.livedata)
-    implementation(libs.android.maps.compose)
-    implementation(libs.maps.compose.v272)
+//    implementation(libs.android.maps.compose)
+//    implementation(libs.maps.compose.v272)
     implementation(libs.androidx.foundation)
     implementation(libs.google.accompanist.flowlayout)
     implementation (libs.androidx.ui.tooling.preview)
     debugImplementation (libs.androidx.ui.tooling)
 
     // Compose навигация
-    implementation ("androidx.navigation:navigation-compose:2.8.4")
+    implementation (libs.androidx.navigation.compose)
 
     // графическая обработка (более современное решение по загрузке пикч вместо Glide или Picasso)
     implementation(libs.coil.compose)
@@ -128,26 +135,22 @@ dependencies {
     implementation (libs.androidx.material3)
     implementation(libs.androidx.material)
     implementation(libs.androidx.material.icons.extended)
-    implementation ("androidx.compose.material:material-icons-extended:1.4.3")
+//    implementation ("androidx.compose.material:material-icons-extended:1.4.3")
 
     // корутин
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.peko)
 
     //логи Тимбер
-    implementation(libs.timber)
-
-    // Требуемые обфускатором R8:
-    implementation(libs.bcprov.jdk15on)
-    implementation("org.conscrypt:conscrypt-android:2.5.2")
+//    implementation(libs.timber)
 
     // тестирование
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
+//    testImplementation(libs.junit)
+//    androidTestImplementation(libs.androidx.junit)
 
     // поиск текущего расположения юзера
-    implementation (libs.play.services.location)
-    implementation (libs.kotlinx.coroutines.play.services)
+//    implementation (libs.play.services.location)
+//    implementation (libs.kotlinx.coroutines.play.services)
 
     // запрос разрешений
     implementation (libs.accompanist.permissions)
@@ -158,9 +161,13 @@ dependencies {
     implementation (libs.androidx.room.ktx)
 
     // работа со временем
-    implementation (libs.androidx.datastore.preferences)
+//    implementation (libs.androidx.datastore.preferences)
 
     // ExoPlayer
-    implementation ("com.google.android.exoplayer:exoplayer:2.19.0")
-    implementation ("com.google.android.exoplayer:exoplayer-ui:2.19.0")
+    implementation (libs.exoplayer)
+    implementation (libs.exoplayer.ui)
+
+    // Обфускатор R8
+    implementation(libs.bcprov.jdk15on)
+    implementation(libs.conscrypt.android)
 }

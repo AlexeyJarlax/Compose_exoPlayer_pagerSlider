@@ -8,9 +8,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -30,7 +28,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun OttoSearchTextField(
+fun AlexSearchTextField(
     value: String,
     onValueChange: (String) -> Unit,
     placeholderText: String,
@@ -67,7 +65,7 @@ fun OttoSearchTextField(
                     Icon(
                         imageVector = Icons.Default.Search,
                         contentDescription = "Поиск",
-                        tint = if (value.isEmpty()) Color.LightGray else Color.Gray,
+                        tint = if (value.isEmpty()) Color.White else Color.Gray,
                         modifier = Modifier.padding(start = dp16)
                     )
                     Spacer(modifier = Modifier.width(dp20))
@@ -85,7 +83,7 @@ fun OttoSearchTextField(
                         innerTextField()
                     }
                     if (value.isNotEmpty()) {
-                        OttoClearButton(
+                        AlexClearButton(
                             onClear = { onValueChange("") },
                             verticalOffset = dp0
                         )
