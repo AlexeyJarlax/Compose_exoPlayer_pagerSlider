@@ -2,103 +2,102 @@ package com.pavlovalexey.startsetupforcomposein2024.ui.eventlist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Videocam
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.HorizontalPagerIndicator
-import com.google.accompanist.pager.rememberPagerState
 import com.pavlovalexey.startsetupforcomposein2024.R
+import com.pavlovalexey.startsetupforcomposein2024.model.Workout
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SliderPagerIndicator(
-    imageUrls: List<String>,
-    onVideoClick: () -> Unit,
+    workouts: List<Workout>,
+    onItemClick: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val pagerState = rememberPagerState()
+    val pagerState: PagerState = rememberPagerState(
+        initialPage = 0,
+        pageCount = { workouts.size }
+    )
 
-    Column(
-        modifier = Modifier
+    Box(
+        modifier = modifier
             .fillMaxWidth()
-            .height(244.dp)
+            .height(200.dp)
+            .padding(horizontal = 16.dp)
     ) {
-        Box(
+        HorizontalPager(
+            state = pagerState,
             modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-        ) {
-            if (imageUrls.isNotEmpty()) {
-                HorizontalPager(
-                    count = imageUrls.size,
-                    state = pagerState,
-                    modifier = Modifier.fillMaxSize()
-                ) { page ->
-                    val painter = rememberAsyncImagePainter(
-                        ImageRequest.Builder(LocalContext.current)
-                            .data(imageUrls[page])
-                            .error(R.drawable.ic_dashboard_black_24dp)
-                            .fallback(R.drawable.ic_dashboard_black_24dp)
-                            .build()
-                    )
-                    Image(
-                        painter = painter,
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
-            } else {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.surfaceVariant)
-                )
-            }
-
-            IconButton(
-                onClick = onVideoClick,
+                .fillMaxSize()
+                .clip(RoundedCornerShape(12.dp))
+        ) { page ->
+            val workout = workouts[page]
+            Box(
                 modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .padding(8.dp)
-                    .size(56.dp)
-                    .padding(16.dp)
+                    .fillMaxSize()
+                    .clickable { onItemClick(workout.id) }
             ) {
-                Icon(
-                    imageVector = Icons.Filled.Videocam,
-                    contentDescription = "Воспроизвести видео",
-                    tint = Color.White
+                val painter = rememberAsyncImagePainter(
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(workout.imageUrl)
+                        .error(R.drawable.ic_dashboard_black_24dp)
+                        .fallback(R.drawable.ic_dashboard_black_24dp)
+                        .build()
+                )
+                Image(
+                    painter = painter,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
+                Text(
+                    text = "${workout.duration} мин.",
+                    style = MaterialTheme.typography.bodyMedium.copy(color = Color.White),
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(8.dp)
                 )
             }
         }
 
-        HorizontalPagerIndicator(
-            pagerState = pagerState,
+        Row(
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 8.dp)
-        )
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 8.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            repeat(workouts.size) { index ->
+                val color = if (pagerState.currentPage == index) Color.Black else Color.White
+                Box(
+                    modifier = Modifier
+                        .size(8.dp)
+                        .clip(CircleShape)
+                        .background(color)
+                )
+            }
+        }
     }
 }

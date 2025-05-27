@@ -10,7 +10,9 @@ import androidx.navigation.navArgument
 import com.pavlovalexey.startsetupforcomposein2024.ui.WorkoutListScreen
 import com.pavlovalexey.startsetupforcomposein2024.ui.eventdetail.WorkoutDetailScreen
 import com.pavlovalexey.startsetupforcomposein2024.ui.player.VideoPlayerScreen
+import androidx.annotation.Keep
 
+@Keep
 @Composable
 fun NavGraph(
     navController: NavHostController,

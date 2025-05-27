@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.OndemandVideo
-import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,7 +22,7 @@ import coil.compose.rememberImagePainter
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.UiState
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.WorkoutDetailViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.pavlovalexey.startsetupforcomposein2024.ui.theme.OttoIconButton
+import com.pavlovalexey.startsetupforcomposein2024.ui.theme.AlexIconButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -98,7 +97,7 @@ fun WorkoutDetailScreen(
                             Text("Длительность: ${w.duration} мин", style = MaterialTheme.typography.bodySmall)
                             Spacer(Modifier.height(16.dp))
 
-                            OttoIconButton(
+                            AlexIconButton(
                                 text = "Воспроизвести видео",
                                 icon = Icons.Filled.OndemandVideo,
                                 onClick = { viewModel.loadVideo() },

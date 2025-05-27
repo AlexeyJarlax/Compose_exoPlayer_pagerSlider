@@ -1,21 +1,24 @@
-# Add project specific ProGuard rules here.
-# You can control the set of applied configuration files using the
-# proguardFiles setting in build.gradle.
-#
-# For more details, see
-#   http://developer.android.com/guide/developing/tools/proguard.html
+# Исключения для всех аннотированных классов @Keep
+-keep @interface androidx.annotation.Keep
+-keep class ** {
+    @androidx.annotation.Keep *;
+}
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
+# Игнорировать отсутствующие в Android-рантайме JDK-классы
+-dontwarn java.beans.**
+-dontwarn javax.naming.**
+-dontwarn javax.naming.directory.**
 
-# Uncomment this to preserve the line number information for
-# debugging stack traces.
-#-keepattributes SourceFile,LineNumberTable
+# Игнорировать старые JSSE/Conscrypt-реализации
+-dontwarn com.android.org.conscrypt.**
+-dontwarn org.apache.harmony.xnet.provider.jsse.**
 
-# If you keep the line number information, uncomment this to
-# hide the original source file name.
-#-renamesourcefileattribute SourceFile
+# Игнорировать BouncyCastle JSSE и OpenJSSE
+-dontwarn org.bouncycastle.jsse.**
+-dontwarn org.openjsse.**
+
+# Игнорировать внутренние платформенные адаптеры OkHttp
+-dontwarn okhttp3.internal.platform.**
+
+# Игнорируем отсутствующие в Android-рантайме аннотации ErrorProne
+-dontwarn com.google.errorprone.annotations.**

@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 
 @Composable
-fun OttoClearButton(
+fun AlexClearButton(
     onClear: () -> Unit,
     verticalOffset: Dp = dp0
 ) {

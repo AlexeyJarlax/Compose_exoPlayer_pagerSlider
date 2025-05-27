@@ -1,4 +1,4 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+// Павлов Алексей, тестовое 2025
 import java.util.Properties
         import java.io.FileInputStream
 

@@ -4,7 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.json.JSONArray
 import java.io.IOException
+import androidx.annotation.Keep
 
+@Keep
 suspend fun loadImageUrlsFromAssets(context: android.content.Context): List<String> = withContext(Dispatchers.IO) {
     val urls = mutableListOf<String>()
     try {
