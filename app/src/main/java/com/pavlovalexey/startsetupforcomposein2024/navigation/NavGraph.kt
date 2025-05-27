@@ -17,38 +17,42 @@ fun NavGraph(
     modifier: Modifier = Modifier
 ) {
     NavHost(
-        navController = navController,
+        navController    = navController,
         startDestination = "workout_list",
-        modifier = modifier
+        modifier         = modifier
     ) {
         composable("workout_list") {
-            WorkoutListScreen(
-                onItemClick = { id ->
-                    navController.navigate("workout_detail/$id")
-                }
-            )
+            WorkoutListScreen(onItemClick = { id ->
+                navController.navigate("workout_detail/$id")
+            })
         }
+
         composable(
             route = "workout_detail/{id}",
             arguments = listOf(navArgument("id") { type = NavType.IntType })
         ) { back ->
             val id = back.arguments!!.getInt("id")
             WorkoutDetailScreen(
-                workoutId = id,
+                workoutId    = id,
                 navController = navController
             )
         }
         composable(
-            route = "video_player/{videoUrl}",
-            arguments = listOf(navArgument("videoUrl") {
-                type = NavType.StringType
-            })
-        ) { back ->
-            val url = back.arguments!!.getString("videoUrl")!!
-            VideoPlayerScreen(
-                videoUrl = url,
-                onBack   = { navController.popBackStack() }
+            route = "video_player?videoUrl={videoUrl}",
+            arguments = listOf(
+                navArgument("videoUrl") {
+                    type = NavType.StringType
+                    defaultValue = ""
+                }
             )
+        ) { back ->
+            val url = back.arguments?.getString("videoUrl").orEmpty()
+            if (url.isNotEmpty()) {
+                VideoPlayerScreen(
+                    videoUrl = url,
+                    onBack   = { navController.popBackStack() }
+                )
+            }
         }
     }
 }

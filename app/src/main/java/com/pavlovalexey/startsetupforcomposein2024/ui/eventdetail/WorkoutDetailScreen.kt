@@ -8,11 +8,14 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.OndemandVideo
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
@@ -20,6 +23,7 @@ import coil.compose.rememberImagePainter
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.UiState
 import com.pavlovalexey.startsetupforcomposein2024.viewmodel.WorkoutDetailViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.pavlovalexey.startsetupforcomposein2024.ui.theme.OttoIconButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,8 +37,9 @@ fun WorkoutDetailScreen(
     val videoUrl by viewModel.videoUrl.collectAsState()
 
     LaunchedEffect(videoUrl) {
-        videoUrl?.let { url ->
-            navController.navigate("video_player/${Uri.encode(url)}")
+        videoUrl?.let { link ->
+            val encoded = Uri.encode(link)
+            navController.navigate("video_player?videoUrl=$encoded")
         }
     }
 
@@ -92,12 +97,15 @@ fun WorkoutDetailScreen(
                             Text("Тип: ${w.type}", style = MaterialTheme.typography.bodySmall)
                             Text("Длительность: ${w.duration} мин", style = MaterialTheme.typography.bodySmall)
                             Spacer(Modifier.height(16.dp))
-                            Button(
+
+                            OttoIconButton(
+                                text = "Воспроизвести видео",
+                                icon = Icons.Filled.OndemandVideo,
                                 onClick = { viewModel.loadVideo() },
-                                modifier = Modifier.fillMaxWidth()
-                            ) {
-                                Text("Воспроизвести видео")
-                            }
+                                buttonColor = Color.Black,
+                                isFillMaxWidth = true,
+                                outlined = true
+                            )
                         }
                     }
                 }

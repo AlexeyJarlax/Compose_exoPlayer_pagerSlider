@@ -16,8 +16,11 @@ import javax.inject.Inject
 class WorkoutRepositoryImpl @Inject constructor(
     private val api: WorkoutApiService,
     @ApplicationContext private val context: Context,
-    private val dao: WorkoutDao
+    private val dao: WorkoutDao,
 ) : WorkoutRepository {
+    companion object {
+        private const val BASE_URL = "http://ref.test.kolsa.ru"
+    }
 
     override suspend fun getWorkouts(): List<Workout> = withContext(Dispatchers.IO) {
         val imageUrls = loadImageUrlsFromAssets(context)
@@ -51,51 +54,60 @@ class WorkoutRepositoryImpl @Inject constructor(
             else -> "Другое"
         }
         return Workout(
-            id          = dto.id,
-            title       = dto.title,
+            id = dto.id,
+            title = dto.title,
             description = dto.description ?: "Описание недоступно",
-            type        = typeName,
-            duration    = mins,
-            imageUrl    = null
+            type = typeName,
+            duration = mins,
+            imageUrl = null
         )
     }
 
     private fun loadLocalFromYaml(): List<Workout> {
         val input = context.assets.open("server.yaml")
-        val root  = Yaml().load<Map<String, Any>>(InputStreamReader(input))
+        val root = Yaml().load<Map<String, Any>>(InputStreamReader(input))
 
         @Suppress("UNCHECKED_CAST")
-        val paths           = root["paths"] as Map<String, Any>
+        val paths = root["paths"] as Map<String, Any>
+
         @Suppress("UNCHECKED_CAST")
         val getWorkoutsNode = paths["/get_workouts"] as Map<String, Any>
+
         @Suppress("UNCHECKED_CAST")
-        val getNode         = getWorkoutsNode["get"] as Map<String, Any>
+        val getNode = getWorkoutsNode["get"] as Map<String, Any>
+
         @Suppress("UNCHECKED_CAST")
-        val responses       = getNode["responses"] as Map<String, Any>
+        val responses = getNode["responses"] as Map<String, Any>
+
         @Suppress("UNCHECKED_CAST")
-        val resp200         = responses["200"] as Map<String, Any>
+        val resp200 = responses["200"] as Map<String, Any>
+
         @Suppress("UNCHECKED_CAST")
-        val content         = resp200["content"] as Map<String, Any>
+        val content = resp200["content"] as Map<String, Any>
+
         @Suppress("UNCHECKED_CAST")
-        val appJson         = content["application/json"] as Map<String, Any>
+        val appJson = content["application/json"] as Map<String, Any>
+
         @Suppress("UNCHECKED_CAST")
-        val examples        = appJson["examples"] as Map<String, Any>
+        val examples = appJson["examples"] as Map<String, Any>
+
         @Suppress("UNCHECKED_CAST")
-        val example1        = examples["example-1"] as Map<String, Any>
+        val example1 = examples["example-1"] as Map<String, Any>
+
         @Suppress("UNCHECKED_CAST")
-        val list            = example1["value"] as List<Map<String, Any>>
+        val list = example1["value"] as List<Map<String, Any>>
 
         return list.map { m ->
-            val id    = (m["id"] as Number).toInt()
+            val id = (m["id"] as Number).toInt()
             val title = m["title"] as String
-            val desc  = m["description"] as? String ?: "Описание недоступно"
-            val type  = when ((m["type"] as Number).toInt()) {
+            val desc = m["description"] as? String ?: "Описание недоступно"
+            val type = when ((m["type"] as Number).toInt()) {
                 1 -> "Тренировка"
                 2 -> "Эфир"
                 3 -> "Комплекс"
                 else -> "Другое"
             }
-            val mins  = (m["duration"] as String).substringBefore(" ").toIntOrNull() ?: 0
+            val mins = (m["duration"] as String).substringBefore(" ").toIntOrNull() ?: 0
             Workout(id, title, desc, type, mins, null)
         }
     }
@@ -103,6 +115,12 @@ class WorkoutRepositoryImpl @Inject constructor(
     override suspend fun getWorkoutById(id: Int): Workout =
         dao.getById(id) ?: throw Exception("Тренировка с id=$id не найдена")
 
-    override suspend fun getWorkoutVideoLink(id: Int): String =
-        api.getVideo(id).link
+    override suspend fun getWorkoutVideoLink(id: Int): String {
+        val rawLink = api.getVideo(id).link
+        return if (rawLink.startsWith("http")) {
+            rawLink
+        } else {
+            BASE_URL.trimEnd('/') + rawLink
+        }
+    }
 }
